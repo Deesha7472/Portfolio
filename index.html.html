@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mostafa Ramadan — Regional Sales Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --indigo: #3d2fa0;
+    --indigo-light: #6c5ce7;
+    --pink: #ff2d78;
+    --cyan: #00d4ff;
+    --amber: #ffb700;
+    --bg: #080810;
+    --bg2: #0d0d1a;
+    --bg3: #111126;
+    --text: #e8e8f0;
+    --text-muted: #8888aa;
+    --glass: rgba(13,13,26,0.7);
+    --border: rgba(108,92,231,0.2);
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:var(--indigo-light) var(--bg2)}
+  ::-webkit-scrollbar{width:6px}
+  ::-webkit-scrollbar-track{background:var(--bg2)}
+  ::-webkit-scrollbar-thumb{background:var(--indigo-light);border-radius:3px}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none}
+
+  /* NOISE OVERLAY */
+  body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.4}
+
+  /* CUSTOM CURSOR */
+  #cursor-dot{position:fixed;width:8px;height:8px;background:var(--cyan);border-radius:50%;pointer-events:none;z-index:10000;transform:translate(-50%,-50%);box-shadow:0 0 10px var(--cyan),0 0 20px var(--cyan);transition:transform .1s}
+  #cursor-ring{position:fixed;width:36px;height:36px;border:1.5px solid var(--pink);border-radius:50%;pointer-events:none;z-index:10000;transform:translate(-50%,-50%);transition:left .12s ease,top .12s ease,transform .2s}
+  body:hover #cursor-ring{opacity:1}
+
+  /* LOADING SCREEN */
+  #loader{position:fixed;inset:0;background:var(--bg);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px;transition:opacity .8s ease,visibility .8s ease}
+  #loader.hidden{opacity:0;visibility:hidden}
+  .loader-initials{font-family:'Syne',sans-serif;font-size:80px;font-weight:800;background:linear-gradient(135deg,var(--indigo-light),var(--cyan),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:pulse-scale 1.5s ease-in-out infinite}
+  @keyframes pulse-scale{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+  .loader-bar-wrap{width:240px;height:4px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden}
+  .loader-bar{height:100%;width:0;border-radius:2px;background:linear-gradient(90deg,var(--indigo-light),var(--cyan),var(--pink),var(--amber));animation:load-progress 2s ease forwards}
+  @keyframes load-progress{to{width:100%}}
+  .loader-text{font-family:'DM Sans',sans-serif;color:var(--text-muted);font-size:13px;letter-spacing:3px;text-transform:uppercase}
+
+  /* PARTICLE CANVAS */
+  #particle-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+  /* NAVBAR */
+  #navbar{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 48px;height:70px;display:flex;align-items:center;justify-content:space-between;background:rgba(8,8,16,.7);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transform:translateY(-100%);animation:slideDown .6s .4s ease forwards}
+  @keyframes slideDown{to{transform:translateY(0)}}
+  .nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;background:linear-gradient(135deg,var(--cyan),var(--indigo-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:1px}
+  .nav-links{display:flex;gap:32px;list-style:none}
+  .nav-links a{color:var(--text-muted);text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.5px;position:relative;padding-bottom:4px;transition:color .3s}
+  .nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1.5px;background:linear-gradient(90deg,var(--cyan),var(--pink));transition:width .3s}
+  .nav-links a:hover{color:var(--text)}
+  .nav-links a:hover::after{width:100%}
+  #menu-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+  #menu-toggle span{display:block;width:24px;height:2px;background:var(--text);transition:.3s}
+
+  /* MAIN WRAPPER */
+  main{position:relative;z-index:1}
+  section{padding:100px 48px;max-width:1200px;margin:0 auto}
+
+  /* HERO */
+  #hero{min-height:100vh;display:flex;align-items:center;padding-top:120px;max-width:1200px;margin:0 auto;gap:64px}
+  .hero-left{flex:1;opacity:0;animation:fadeUp .8s .6s ease forwards}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+  .avail-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.25);border-radius:100px;padding:6px 14px;font-size:12px;color:var(--cyan);letter-spacing:1px;font-weight:600;text-transform:uppercase;margin-bottom:24px}
+  .avail-dot{width:7px;height:7px;background:var(--cyan);border-radius:50%;animation:blink 1.5s ease-in-out infinite}
+  @keyframes blink{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(0,212,255,.4)}50%{opacity:.6;box-shadow:0 0 0 6px rgba(0,212,255,0)}}
+  .hero-name{font-family:'Syne',sans-serif;font-size:clamp(52px,7vw,86px);font-weight:800;line-height:1.05;margin-bottom:16px;background:linear-gradient(135deg,#fff 30%,var(--cyan) 55%,var(--pink) 75%,var(--amber) 90%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:200% auto;animation:shimmer 4s linear infinite}
+  @keyframes shimmer{0%{background-position:0% center}100%{background-position:200% center}}
+  .hero-title{font-size:clamp(14px,2vw,18px);color:var(--text-muted);font-weight:400;line-height:1.7;margin-bottom:12px;max-width:520px}
+  .hero-sub{font-size:13px;color:var(--indigo-light);font-weight:500;letter-spacing:.5px;margin-bottom:36px}
+  .hero-ctas{display:flex;gap:16px;flex-wrap:wrap}
+  .btn-primary{padding:14px 30px;background:linear-gradient(135deg,var(--indigo-light),var(--cyan));border:none;border-radius:8px;color:#fff;font-family:'DM Sans',sans-serif;font-weight:600;font-size:14px;cursor:pointer;transition:transform .2s,box-shadow .2s;text-decoration:none}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(108,92,231,.4)}
+  .btn-outline{padding:13px 30px;background:transparent;border:1.5px solid var(--border);border-radius:8px;color:var(--text);font-family:'DM Sans',sans-serif;font-weight:600;font-size:14px;cursor:pointer;transition:all .2s;text-decoration:none}
+  .btn-outline:hover{border-color:var(--pink);color:var(--pink);box-shadow:0 0 20px rgba(255,45,120,.15)}
+
+  .hero-right{flex:0 0 380px;display:flex;align-items:center;justify-content:center;position:relative;opacity:0;animation:fadeUp .8s .9s ease forwards}
+  .hero-card{position:relative;width:300px;height:360px;background:linear-gradient(135deg,rgba(61,47,160,.4),rgba(0,212,255,.1));border:1px solid rgba(108,92,231,.3);border-radius:24px;backdrop-filter:blur(20px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;animation:float3d 6s ease-in-out infinite}
+  @keyframes float3d{0%,100%{transform:perspective(600px) rotateY(-5deg) rotateX(3deg) translateY(0)}33%{transform:perspective(600px) rotateY(5deg) rotateX(-2deg) translateY(-12px)}66%{transform:perspective(600px) rotateY(-3deg) rotateX(5deg) translateY(6px)}}
+  .card-avatar{width:88px;height:88px;background:linear-gradient(135deg,var(--indigo-light),var(--cyan));border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:28px;color:#fff;position:relative;z-index:1}
+  .spin-ring{position:absolute;width:108px;height:108px;border:2px dashed rgba(0,212,255,.4);border-radius:50%;animation:spin 12s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .card-name{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:#fff}
+  .card-role{font-size:12px;color:var(--cyan);letter-spacing:1px;text-align:center;padding:0 16px}
+  .card-stats{display:flex;gap:16px;margin-top:8px}
+  .stat{text-align:center}
+  .stat-val{font-family:'Syne',sans-serif;font-weight:800;font-size:22px;background:linear-gradient(135deg,var(--amber),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .stat-lbl{font-size:10px;color:var(--text-muted);letter-spacing:.5px;text-transform:uppercase}
+  .card-glow{position:absolute;inset:-60px;background:radial-gradient(circle at 50% 60%,rgba(108,92,231,.3),transparent 70%);pointer-events:none;z-index:-1}
+  .card-tag{background:rgba(255,183,0,.1);border:1px solid rgba(255,183,0,.3);border-radius:100px;font-size:10px;color:var(--amber);padding:3px 12px;letter-spacing:1px;font-weight:600}
+
+  /* SECTION HEADERS */
+  .section-tag{font-size:11px;color:var(--pink);letter-spacing:3px;text-transform:uppercase;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:10px}
+  .section-tag::before{content:'';display:block;width:30px;height:1.5px;background:var(--pink)}
+  .section-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(36px,5vw,56px);line-height:1.1;margin-bottom:16px}
+  .section-title span{background:linear-gradient(135deg,var(--cyan),var(--indigo-light));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .section-desc{color:var(--text-muted);max-width:560px;line-height:1.8;margin-bottom:60px}
+
+  /* REVEAL ANIMATIONS */
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.active{opacity:1;transform:translateY(0)}
+  .reveal-left{opacity:0;transform:translateX(-40px);transition:opacity .7s ease,transform .7s ease}
+  .reveal-left.active{opacity:1;transform:translateX(0)}
+  .reveal-right{opacity:0;transform:translateX(40px);transition:opacity .7s ease,transform .7s ease}
+  .reveal-right.active{opacity:1;transform:translateX(0)}
+
+  /* SKILLS */
+  #skills{background:var(--bg2);margin:0;max-width:100%;padding:100px 0}
+  .skills-inner{max-width:1200px;margin:0 auto;padding:0 48px}
+  .skills-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-bottom:60px}
+  .skill-item{display:flex;flex-direction:column;gap:10px}
+  .skill-header{display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:var(--text)}
+  .skill-pct{color:var(--cyan);font-family:'Syne',sans-serif}
+  .skill-bar-bg{height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;position:relative}
+  .skill-bar-fill{height:100%;width:0;border-radius:3px;transition:width 1.4s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden}
+  .skill-bar-fill::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);transform:translateX(-100%)}
+  .skill-bar-fill.swept::after{animation:sweep 1s .2s ease forwards}
+  @keyframes sweep{to{transform:translateX(200%)}}
+  .skill-bar-fill.color-1{background:linear-gradient(90deg,var(--indigo-light),var(--cyan))}
+  .skill-bar-fill.color-2{background:linear-gradient(90deg,var(--pink),var(--amber))}
+  .skill-bar-fill.color-3{background:linear-gradient(90deg,var(--cyan),var(--indigo-light))}
+  .skill-bar-fill.color-4{background:linear-gradient(90deg,var(--amber),var(--pink))}
+
+  .chips-wrap{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{padding:7px 16px;background:rgba(108,92,231,.12);border:1px solid rgba(108,92,231,.25);border-radius:100px;font-size:12px;color:var(--indigo-light);font-weight:500;transition:transform .25s,background .25s,color .25s,border-color .25s}
+  .chip:hover{transform:translateY(-4px);background:rgba(0,212,255,.12);border-color:rgba(0,212,255,.4);color:var(--cyan)}
+
+  /* EXPERIENCE */
+  .timeline{position:relative;padding-left:40px}
+  .timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--indigo-light),var(--cyan),var(--pink),var(--amber));animation:timeline-grow 2s ease forwards}
+  @keyframes timeline-grow{from{height:0}to{height:100%}}
+  .timeline-item{position:relative;margin-bottom:40px;background:rgba(13,13,26,.8);border:1px solid var(--border);border-radius:16px;padding:28px 28px 24px;transition:transform .3s,border-color .3s,box-shadow .3s}
+  .timeline-item::before{content:'';position:absolute;left:-48px;top:28px;width:16px;height:16px;border-radius:50%;background:var(--indigo-light);border:3px solid var(--bg);box-shadow:0 0 12px var(--indigo-light)}
+  .timeline-item:hover{transform:translateX(6px);border-color:rgba(108,92,231,.5);box-shadow:0 8px 40px rgba(108,92,231,.2)}
+  .job-header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:8px}
+  .job-title{font-family:'Syne',sans-serif;font-weight:700;font-size:19px;color:#fff}
+  .job-date{font-size:12px;color:var(--amber);font-weight:600;letter-spacing:.5px;white-space:nowrap;background:rgba(255,183,0,.08);border:1px solid rgba(255,183,0,.2);border-radius:100px;padding:4px 12px}
+  .job-company{font-size:14px;color:var(--cyan);font-weight:600;margin-bottom:4px}
+  .job-location{font-size:12px;color:var(--text-muted);margin-bottom:16px}
+  .job-desc{font-size:14px;color:var(--text-muted);line-height:1.8;margin-bottom:16px}
+  .job-bullets{list-style:none;display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+  .job-bullets li{font-size:13px;color:var(--text-muted);padding-left:18px;position:relative;line-height:1.6}
+  .job-bullets li::before{content:'▸';position:absolute;left:0;color:var(--cyan);font-size:10px;top:1px}
+  .job-badges{display:flex;flex-wrap:wrap;gap:8px}
+  .badge{padding:4px 12px;border-radius:6px;font-size:11px;font-weight:600;letter-spacing:.3px}
+  .badge-pink{background:rgba(255,45,120,.1);color:var(--pink);border:1px solid rgba(255,45,120,.2)}
+  .badge-cyan{background:rgba(0,212,255,.1);color:var(--cyan);border:1px solid rgba(0,212,255,.2)}
+  .badge-amber{background:rgba(255,183,0,.1);color:var(--amber);border:1px solid rgba(255,183,0,.2)}
+  .badge-indigo{background:rgba(108,92,231,.1);color:var(--indigo-light);border:1px solid rgba(108,92,231,.2)}
+
+  /* MARQUEE */
+  .marquee-wrap{overflow:hidden;padding:40px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:rgba(13,13,26,.5);margin:60px 0}
+  .marquee-track{display:flex;gap:48px;animation:marquee 20s linear infinite;white-space:nowrap}
+  .marquee-track:hover{animation-play-state:paused}
+  @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+  .marquee-item{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:var(--text-muted);letter-spacing:1px;display:flex;align-items:center;gap:24px}
+  .marquee-item::after{content:'◆';color:var(--pink);font-size:8px}
+
+  /* PROJECTS */
+  .projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .proj-card{background:rgba(13,13,26,.8);border:1px solid var(--border);border-radius:16px;padding:28px;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s}
+  .proj-card::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),var(--pink),var(--amber));transition:left .5s ease}
+  .proj-card:hover{transform:translateY(-6px);box-shadow:0 16px 48px rgba(108,92,231,.2)}
+  .proj-card:hover::before{left:0}
+  .proj-emoji{font-size:36px;margin-bottom:16px}
+  .proj-name{font-family:'Syne',sans-serif;font-weight:700;font-size:17px;color:#fff;margin-bottom:8px}
+  .proj-desc{font-size:13px;color:var(--text-muted);line-height:1.7;margin-bottom:16px}
+  .proj-tags{display:flex;flex-wrap:wrap;gap:6px}
+  .proj-tag{padding:3px 10px;background:rgba(61,47,160,.2);border:1px solid rgba(108,92,231,.2);border-radius:4px;font-size:11px;color:var(--indigo-light);font-weight:500}
+
+  /* EDUCATION */
+  .edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:48px}
+  .edu-card{background:rgba(13,13,26,.8);border:1px solid var(--border);border-radius:16px;padding:28px}
+  .edu-icon{font-size:28px;margin-bottom:12px}
+  .edu-deg{font-family:'Syne',sans-serif;font-weight:700;font-size:17px;color:#fff;margin-bottom:6px}
+  .edu-inst{font-size:13px;color:var(--cyan);font-weight:600;margin-bottom:4px}
+  .edu-year{font-size:12px;color:var(--text-muted);margin-bottom:12px}
+  .edu-note{font-size:13px;color:var(--text-muted);line-height:1.6;border-top:1px solid var(--border);padding-top:12px}
+  .lang-wrap{display:flex;gap:16px;flex-wrap:wrap}
+  .lang-badge{padding:12px 24px;border-radius:12px;display:flex;align-items:center;gap:12px;border:1px solid var(--border)}
+  .lang-badge.native{background:rgba(255,183,0,.06);border-color:rgba(255,183,0,.25)}
+  .lang-badge.prof{background:rgba(0,212,255,.06);border-color:rgba(0,212,255,.25)}
+  .lang-flag{font-size:28px}
+  .lang-info{}
+  .lang-name{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#fff}
+  .lang-level{font-size:12px;color:var(--text-muted);margin-top:2px}
+
+  /* CONTACT */
+  #contact{background:var(--bg2);margin:0;max-width:100%;padding:100px 0}
+  .contact-inner{max-width:1200px;margin:0 auto;padding:0 48px;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+  .contact-cards{display:flex;flex-direction:column;gap:16px}
+  .contact-card{display:flex;align-items:center;gap:16px;background:rgba(13,13,26,.8);border:1px solid var(--border);border-radius:12px;padding:18px 20px;transition:transform .3s,border-color .3s,box-shadow .3s;cursor:default}
+  .contact-card:hover{transform:translateX(6px);border-color:rgba(0,212,255,.4);box-shadow:0 4px 24px rgba(0,212,255,.1)}
+  .contact-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+  .ci-cyan{background:rgba(0,212,255,.12)}
+  .ci-pink{background:rgba(255,45,120,.12)}
+  .ci-amber{background:rgba(255,183,0,.12)}
+  .ci-indigo{background:rgba(108,92,231,.12)}
+  .contact-lbl{font-size:11px;color:var(--text-muted);letter-spacing:.5px;text-transform:uppercase;margin-bottom:3px}
+  .contact-val{font-size:14px;color:var(--text);font-weight:500}
+  .contact-right{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px}
+  .contact-avatar{width:140px;height:140px;background:linear-gradient(135deg,var(--indigo-light),var(--cyan));border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:42px;color:#fff;position:relative;z-index:1}
+  .ripple-wrap{position:relative;width:200px;height:200px;display:flex;align-items:center;justify-content:center}
+  .ripple{position:absolute;border-radius:50%;border:1.5px solid rgba(108,92,231,.4);animation:ripple-out 3s ease-out infinite}
+  .ripple:nth-child(1){width:160px;height:160px;animation-delay:0s}
+  .ripple:nth-child(2){width:190px;height:190px;animation-delay:.8s;border-color:rgba(0,212,255,.25)}
+  .ripple:nth-child(3){width:220px;height:220px;animation-delay:1.6s;border-color:rgba(255,45,120,.15)}
+  @keyframes ripple-out{0%{transform:scale(.7);opacity:0}30%{opacity:1}100%{transform:scale(1.2);opacity:0}}
+  .contact-tagline{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;text-align:center;background:linear-gradient(135deg,var(--cyan),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+  /* FOOTER */
+  footer{text-align:center;padding:40px 48px;color:var(--text-muted);font-size:13px;border-top:1px solid var(--border)}
+  footer span{color:var(--pink)}
+
+  /* RESPONSIVE */
+  @media(max-width:900px){
+    #navbar{padding:0 24px}
+    .nav-links{display:none}
+    #menu-toggle{display:flex}
+    #hero{flex-direction:column;padding-top:100px;gap:40px;text-align:center;padding:100px 24px 60px}
+    .hero-ctas{justify-content:center}
+    .hero-right{flex:0 0 auto}
+    section{padding:80px 24px}
+    .skills-grid{grid-template-columns:1fr}
+    .projects-grid{grid-template-columns:1fr}
+    .edu-grid{grid-template-columns:1fr}
+    .contact-inner{grid-template-columns:1fr;padding:0 24px}
+    .contact-right{display:none}
+    .skills-inner{padding:0 24px}
+    #contact{padding:80px 0}
+    #skills{padding:80px 0}
+  }
+  @media(max-width:600px){
+    .hero-right{display:none}
+    .timeline{padding-left:24px}
+    .timeline-item::before{left:-32px;width:12px;height:12px}
+  }
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-initials">MR</div>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+  <div class="loader-text">Loading Portfolio</div>
+</div>
+
+<!-- CURSOR -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- PARTICLE CANVAS -->
+<canvas id="particle-canvas"></canvas>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-logo">Mostafa Ramadan</div>
+  <ul class="nav-links">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Highlights</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button id="menu-toggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <div class="avail-tag"><span class="avail-dot"></span>Open to Senior Roles — GCC / MENA</div>
+    <h1 class="hero-name">Mostafa<br>Ramadan</h1>
+    <p class="hero-title">Regional Sales Manager · AI & Smart-City · Enterprise SaaS · Digital Transformation · KSA & GCC</p>
+    <p class="hero-sub">Riyadh, Saudi Arabia &nbsp;|&nbsp; Arabic & English &nbsp;|&nbsp; 14+ Years B2B Enterprise Sales</p>
+    <div class="hero-ctas">
+      <a href="#experience" class="btn-primary">View Experience</a>
+      <a href="#contact" class="btn-outline">Get In Touch</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-card">
+      <div class="card-glow"></div>
+      <div style="position:relative">
+        <div class="spin-ring"></div>
+        <div class="card-avatar">MR</div>
+      </div>
+      <div class="card-name">Mostafa Ramadan</div>
+      <div class="card-role">Regional Sales Manager<br>AI & Computer Vision SaaS</div>
+      <div class="card-stats">
+        <div class="stat"><div class="stat-val">14+</div><div class="stat-lbl">Years</div></div>
+        <div class="stat"><div class="stat-val">25%</div><div class="stat-lbl">YoY Growth</div></div>
+        <div class="stat"><div class="stat-val">45%</div><div class="stat-lbl">Portfolio+</div></div>
+      </div>
+      <div class="card-tag">KSA · GCC · MENA</div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<div id="skills">
+<div class="skills-inner">
+  <div class="reveal">
+    <div class="section-tag">Competencies</div>
+    <h2 class="section-title">Skills & <span>Expertise</span></h2>
+    <p class="section-desc">Core competencies built across 14+ years of enterprise B2B sales, supply chain leadership, and digital transformation in KSA, GCC & Egypt.</p>
+  </div>
+  <div class="skills-grid reveal">
+    <div class="skill-item" data-pct="95"><div class="skill-header"><span>Enterprise & B2B Sales</span><span class="skill-pct">95%</span></div><div class="skill-bar-bg"><div class="skill-bar-fill color-1" data-w="95"></div></div></div>
+    <div class="skill-item" data-pct="90"><div class="skill-header"><span>AI & Computer Vision SaaS</span><span class="skill-pct">90%</span></div><div class="skill-bar-bg"><div class="skill-bar-fill color-2" data-w="90"></div></div></div>
+    <div class="skill-item" data-pct="92"><div class="skill-header"><span>Strategic Account Management</span><span class="skill-pct">92%</span></div><div class="skill-bar-bg"><div class="skill-bar-fill color-3" data-w="92"></div></div></div>
+    <div class="skill-item" data-pct="88"><div class="skill-header"><span>Digital Transformation</span><span class="skill-pct">88%</span></div><div class="skill-bar-bg"><div class="skill-bar-fill color-4" data-w="88"></div></div></div>
+    <div class="skill-item" data-pct="93"><div class="skill-header"><span>Sales Leadership & Team Building</span><span class="skill-pct">93%</span></div><div class="skill-bar-bg"><div class="skill-bar-fill color-1" data-w="93"></div></div></div>
+    <div class="skill-item" data-pct="87"><div class="skill-header"><span>CRM & Pipeline Governance</span><span class="skill-pct">87%</span></div><div class="skill-bar-bg"><div class="skill-bar-fill color-2" data-w="87"></div></div></div>
+    <div class="skill-item" data-pct="85"><div class="skill-header"><span>Contract Negotiation</span><span class="skill-pct">85%</span></div><div class="skill-bar-bg"><div class="skill-bar-fill color-3" data-w="85"></div></div></div>
+    <div class="skill-item" data-pct="88"><div class="skill-header"><span>Channel & Partner Development</span><span class="skill-pct">88%</span></div><div class="skill-bar-bg"><div class="skill-bar-fill color-4" data-w="88"></div></div></div>
+    <div class="skill-item" data-pct="90"><div class="skill-header"><span>MEDDIC / SPIN Selling</span><span class="skill-pct">90%</span></div><div class="skill-bar-bg"><div class="skill-bar-fill color-1" data-w="90"></div></div></div>
+    <div class="skill-item" data-pct="82"><div class="skill-header"><span>Supply Chain & Procurement</span><span class="skill-pct">82%</span></div><div class="skill-bar-bg"><div class="skill-bar-fill color-2" data-w="82"></div></div></div>
+  </div>
+
+  <div class="reveal" style="margin-top:48px">
+    <p class="section-tag">Technologies & Domains</p>
+    <div class="chips-wrap">
+      <div class="chip">AI & Computer Vision</div>
+      <div class="chip">Video Analytics</div>
+      <div class="chip">ALPR</div>
+      <div class="chip">Face Recognition</div>
+      <div class="chip">PPE Detection</div>
+      <div class="chip">Edge AI & IoT</div>
+      <div class="chip">Smart-City Platforms</div>
+      <div class="chip">Enterprise SaaS</div>
+      <div class="chip">Cloud Native</div>
+      <div class="chip">ONVIF / RTSP</div>
+      <div class="chip">VMS Integration</div>
+      <div class="chip">ICT Infrastructure</div>
+      <div class="chip">AV / ELV</div>
+      <div class="chip">Digital Signage</div>
+      <div class="chip">POS Systems</div>
+      <div class="chip">Kiosk Solutions</div>
+      <div class="chip">Managed Services</div>
+      <div class="chip">PDPL Compliance</div>
+      <div class="chip">Vision 2030 GTM</div>
+      <div class="chip">Samsung</div>
+      <div class="chip">LG</div>
+      <div class="chip">Cisco</div>
+      <div class="chip">Dahua</div>
+      <div class="chip">HME</div>
+      <div class="chip">Salesforce CRM</div>
+      <div class="chip">Behavioral Analytics</div>
+      <div class="chip">P&L Management</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Rgeeb</span>
+    <span class="marquee-item">FAMA Technologies</span>
+    <span class="marquee-item">Riyadh Holding</span>
+    <span class="marquee-item">Mobily</span>
+    <span class="marquee-item">Ministry of Tourism KSA</span>
+    <span class="marquee-item">Dunkin'</span>
+    <span class="marquee-item">Tim Hortons</span>
+    <span class="marquee-item">Burger King</span>
+    <span class="marquee-item">Alshaya</span>
+    <span class="marquee-item">Americana</span>
+    <span class="marquee-item">Tatwir KSA</span>
+    <span class="marquee-item">Samsung</span>
+    <span class="marquee-item">Cisco</span>
+    <span class="marquee-item">Dahua</span>
+    <!-- duplicate for seamless loop -->
+    <span class="marquee-item">Rgeeb</span>
+    <span class="marquee-item">FAMA Technologies</span>
+    <span class="marquee-item">Riyadh Holding</span>
+    <span class="marquee-item">Mobily</span>
+    <span class="marquee-item">Ministry of Tourism KSA</span>
+    <span class="marquee-item">Dunkin'</span>
+    <span class="marquee-item">Tim Hortons</span>
+    <span class="marquee-item">Burger King</span>
+    <span class="marquee-item">Alshaya</span>
+    <span class="marquee-item">Americana</span>
+    <span class="marquee-item">Tatwir KSA</span>
+    <span class="marquee-item">Samsung</span>
+    <span class="marquee-item">Cisco</span>
+    <span class="marquee-item">Dahua</span>
+  </div>
+</div>
+
+<!-- EXPERIENCE -->
+<section id="experience" style="max-width:900px">
+  <div class="reveal">
+    <div class="section-tag">Career Path</div>
+    <h2 class="section-title">Work <span>Experience</span></h2>
+    <p class="section-desc">A 14-year journey from procurement to leading GCC sales for an AI-powered SaaS platform — built on consultative selling, enterprise relationships, and Vision 2030 alignment.</p>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="job-header">
+        <div class="job-title">Sales Manager — KSA & GCC</div>
+        <div class="job-date">May 2026 – Present</div>
+      </div>
+      <div class="job-company">Rgeeb — AI Surveillance & Video Analytics SaaS</div>
+      <div class="job-location">📍 Riyadh, Saudi Arabia</div>
+      <div class="job-desc">Leading GCC B2B sales for a Saudi-built, PDPL-compliant AI surveillance platform with 100+ detection models, edge + cloud hybrid architecture, and VMS/ONVIF/RTSP integration.</div>
+      <ul class="job-bullets">
+        <li>Tier-1 account coverage: Riyadh Holding, Mobily, Ministry of Tourism, and major retail/F&B chains</li>
+        <li>Vision 2030 GTM — smart-city, public-safety, retail loss-prevention, F&B compliance, PPE/safety, crowd management</li>
+        <li>Positioning differentiated value — Arabic NL video search, Saudi data residency, ALPR + face recognition + behavioral analytics</li>
+        <li>Establishing CRM hygiene, MEDDIC qualification, weighted forecasting, and partner channel framework</li>
+      </ul>
+      <div class="job-badges">
+        <span class="badge badge-cyan">AI SaaS</span>
+        <span class="badge badge-pink">Computer Vision</span>
+        <span class="badge badge-amber">Vision 2030</span>
+        <span class="badge badge-indigo">PDPL Compliant</span>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="job-header">
+        <div class="job-title">Regional Sales Manager — KSA & Egypt</div>
+        <div class="job-date">Jul 2019 – Apr 2026</div>
+      </div>
+      <div class="job-company">FAMA Technologies</div>
+      <div class="job-location">📍 Riyadh, Saudi Arabia</div>
+      <div class="job-desc">Delivered sustained 20–25% YoY revenue growth across ICT, SaaS, cloud, AV/ELV, and managed services for enterprise, retail, hospitality, and government verticals.</div>
+      <ul class="job-bullets">
+        <li>45% strategic enterprise portfolio expansion through consultative upsell/cross-sell motion</li>
+        <li>35% team quota-attainment uplift — built and led a high-performing regional sales team</li>
+        <li>22% CSAT improvement via on-time delivery of ICT, SaaS, cloud, AV/ELV, and managed-services programs</li>
+        <li>28% lift in account retention through CRM pipeline governance; 30% faster service-delivery turnaround</li>
+        <li>Established strategic OEM partnerships — Samsung, LG, Cisco, HME, Dahua</li>
+      </ul>
+      <div class="job-badges">
+        <span class="badge badge-pink">20–25% YoY Growth</span>
+        <span class="badge badge-cyan">45% Portfolio+</span>
+        <span class="badge badge-amber">Enterprise SaaS</span>
+        <span class="badge badge-indigo">KSA & Egypt</span>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="job-header">
+        <div class="job-title">Supply Chain Manager</div>
+        <div class="job-date">Jan 2016 – Jul 2019</div>
+      </div>
+      <div class="job-company">FAMA Technologies</div>
+      <div class="job-location">📍 Riyadh, Saudi Arabia</div>
+      <div class="job-desc">Managed multi-category supply chain operations for ICT, AV/ELV, and digital signage products across KSA enterprise accounts.</div>
+      <ul class="job-bullets">
+        <li>Negotiated multi-year OEM agreements (Samsung, LG, Cisco, HME, Dahua) — 15% cost savings with high-availability SLAs</li>
+        <li>32% procurement efficiency gain, 18% lower inventory cost, 25% improved project readiness</li>
+        <li>20% fewer supply delays through optimized logistics and vendor management</li>
+      </ul>
+      <div class="job-badges">
+        <span class="badge badge-amber">15% Cost Savings</span>
+        <span class="badge badge-indigo">OEM Negotiation</span>
+      </div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="job-header">
+        <div class="job-title">Procurement Supervisor</div>
+        <div class="job-date">Jun 2011 – Dec 2015</div>
+      </div>
+      <div class="job-company">FAMA Technologies → Sharahily Trading Est.</div>
+      <div class="job-location">📍 Riyadh, Saudi Arabia</div>
+      <div class="job-desc">Managed ICT hardware, digital signage, and multi-category procurement — establishing the operational foundation that led to three promotions over 13 years.</div>
+      <ul class="job-bullets">
+        <li>12% cost reduction, 27% vendor lead-time improvement, 40% fewer urgent purchase requests</li>
+        <li>22% better inventory turnover through disciplined supplier management</li>
+      </ul>
+      <div class="job-badges">
+        <span class="badge badge-pink">Foundation Role</span>
+        <span class="badge badge-cyan">3× Promoted</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS / KEY ACHIEVEMENTS -->
+<section id="projects">
+  <div class="reveal">
+    <div class="section-tag">Key Highlights</div>
+    <h2 class="section-title">Notable <span>Achievements</span></h2>
+    <p class="section-desc">Measurable impact across enterprise sales, GTM strategy, team leadership, and operational excellence throughout KSA, GCC and Egypt.</p>
+  </div>
+  <div class="projects-grid">
+    <div class="proj-card reveal">
+      <div class="proj-emoji">🤖</div>
+      <div class="proj-name">AI Surveillance GTM — Rgeeb</div>
+      <div class="proj-desc">Built GCC outbound sales motion for a Saudi-built AI video analytics SaaS platform, covering Tier-1 enterprise accounts including Riyadh Holding, Mobily, and Ministry of Tourism.</div>
+      <div class="proj-tags"><span class="proj-tag">AI SaaS</span><span class="proj-tag">PDPL</span><span class="proj-tag">Vision 2030</span><span class="proj-tag">MEDDIC</span></div>
+    </div>
+    <div class="proj-card reveal">
+      <div class="proj-emoji">📈</div>
+      <div class="proj-name">6-Year Revenue Growth Engine</div>
+      <div class="proj-desc">Delivered 20–25% YoY revenue growth for 6+ consecutive years at FAMA Technologies across ICT, SaaS, cloud, AV/ELV, and managed services verticals.</div>
+      <div class="proj-tags"><span class="proj-tag">Revenue Growth</span><span class="proj-tag">Enterprise</span><span class="proj-tag">KSA</span></div>
+    </div>
+    <div class="proj-card reveal">
+      <div class="proj-emoji">🏆</div>
+      <div class="proj-name">45% Portfolio Expansion</div>
+      <div class="proj-desc">Grew strategic enterprise portfolio by 45% through consultative solution selling, disciplined upsell/cross-sell motion, and deep C-level account penetration.</div>
+      <div class="proj-tags"><span class="proj-tag">Account Growth</span><span class="proj-tag">Upsell</span><span class="proj-tag">Cross-Sell</span></div>
+    </div>
+    <div class="proj-card reveal">
+      <div class="proj-emoji">👥</div>
+      <div class="proj-name">Sales Team Transformation</div>
+      <div class="proj-desc">Built and led high-performing regional sales teams — achieving 35% team quota-attainment uplift and 30% productivity boost through structured coaching and CRM governance.</div>
+      <div class="proj-tags"><span class="proj-tag">Team Leadership</span><span class="proj-tag">CRM</span><span class="proj-tag">Quota</span></div>
+    </div>
+    <div class="proj-card reveal">
+      <div class="proj-emoji">🤝</div>
+      <div class="proj-name">OEM Partner Ecosystem</div>
+      <div class="proj-desc">Established multi-year strategic partnerships with Samsung, LG, Cisco, HME, and Dahua — reducing costs by 15% and improving service delivery turnaround by 30%.</div>
+      <div class="proj-tags"><span class="proj-tag">Samsung</span><span class="proj-tag">Cisco</span><span class="proj-tag">Dahua</span><span class="proj-tag">Channel</span></div>
+    </div>
+    <div class="proj-card reveal">
+      <div class="proj-emoji">🏙️</div>
+      <div class="proj-name">Triple Promotion at FAMA</div>
+      <div class="proj-desc">Rose from Procurement Supervisor to Supply Chain Manager to Regional Sales Manager across a 13-year tenure — a full commercial transformation from operations to enterprise GTM.</div>
+      <div class="proj-tags"><span class="proj-tag">Leadership</span><span class="proj-tag">Growth</span><span class="proj-tag">13 Years</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="reveal">
+    <div class="section-tag">Background</div>
+    <h2 class="section-title">Education & <span>Languages</span></h2>
+    <p class="section-desc">Academic foundation in law providing fluency in contract negotiation, regulatory compliance, and PDPL/data-sovereignty frameworks — directly applied across enterprise SaaS sales.</p>
+  </div>
+  <div class="edu-grid reveal">
+    <div class="edu-card">
+      <div class="edu-icon">⚖️</div>
+      <div class="edu-deg">Bachelor of Law</div>
+      <div class="edu-inst">Assiut University, Egypt</div>
+      <div class="edu-year">2006 – 2010</div>
+      <div class="edu-note">Foundation in contract negotiation, regulatory compliance, and PDPL / data-sovereignty fluency — applied directly in enterprise SaaS deal structuring, NDA drafting, and reseller agreements.</div>
+    </div>
+    <div class="edu-card" style="display:flex;flex-direction:column;justify-content:space-between">
+      <div>
+        <div class="edu-icon">🌐</div>
+        <div class="edu-deg">Bilingual Professional</div>
+        <div class="edu-inst">Arabic (Native) · English (Professional)</div>
+        <div class="edu-year">Cross-cultural enterprise communication across KSA, GCC & Egypt</div>
+      </div>
+      <div class="edu-note">Conducts C-level enterprise negotiations, RFP responses, executive presentations, and partner agreements fluently in both Arabic and English across the MENA region.</div>
+    </div>
+  </div>
+  <div class="lang-wrap reveal">
+    <div class="lang-badge native">
+      <div class="lang-flag">🇪🇬</div>
+      <div class="lang-info">
+        <div class="lang-name">Arabic</div>
+        <div class="lang-level">Native — Full Professional Mastery</div>
+      </div>
+    </div>
+    <div class="lang-badge prof">
+      <div class="lang-flag">🇬🇧</div>
+      <div class="lang-info">
+        <div class="lang-name">English</div>
+        <div class="lang-level">Professional — Bilingual Proficiency</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div id="contact">
+  <div class="contact-inner">
+    <div>
+      <div class="reveal">
+        <div class="section-tag">Let's Connect</div>
+        <h2 class="section-title" style="margin-bottom:12px">Get In <span>Touch</span></h2>
+        <p class="section-desc" style="margin-bottom:40px">Open to Senior Sales, Business Development, and Commercial Leadership roles across GCC & MENA — particularly in AI, SaaS, and Digital Transformation.</p>
+      </div>
+      <div class="contact-cards">
+        <div class="contact-card reveal-left">
+          <div class="contact-icon ci-cyan">📧</div>
+          <div><div class="contact-lbl">Email</div><div class="contact-val">m.desha88@gmail.com</div></div>
+        </div>
+        <div class="contact-card reveal-left" style="transition-delay:.1s">
+          <div class="contact-icon ci-pink">📱</div>
+          <div><div class="contact-lbl">Phone</div><div class="contact-val">+966 59 938 8268</div></div>
+        </div>
+        <div class="contact-card reveal-left" style="transition-delay:.2s">
+          <div class="contact-icon ci-amber">📍</div>
+          <div><div class="contact-lbl">Location</div><div class="contact-val">Riyadh, Saudi Arabia</div></div>
+        </div>
+        <div class="contact-card reveal-left" style="transition-delay:.3s">
+          <div class="contact-icon ci-indigo">💼</div>
+          <div><div class="contact-lbl">LinkedIn</div><div class="contact-val">linkedin.com/in/mostafa-ramadan-7181ab72</div></div>
+        </div>
+        <div class="contact-card reveal-left" style="transition-delay:.4s">
+          <div class="contact-icon ci-cyan">✅</div>
+          <div><div class="contact-lbl">Availability</div><div class="contact-val">Open to Opportunities — GCC & MENA</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-right reveal-right">
+      <div class="ripple-wrap">
+        <div class="ripple"></div>
+        <div class="ripple"></div>
+        <div class="ripple"></div>
+        <div class="contact-avatar">MR</div>
+      </div>
+      <div class="contact-tagline">14+ Years<br>Enterprise Excellence</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>Crafted with precision by <span>Mostafa Ramadan</span> &nbsp;·&nbsp; Riyadh, KSA &nbsp;·&nbsp; 2025</p>
+</footer>
+
+<script>
+// ─── LOADER ───────────────────────────────────────────────────────────────────
+window.addEventListener('load',()=>{
+  setTimeout(()=>{document.getElementById('loader').classList.add('hidden')},2200)
+})
+
+// ─── CUSTOM CURSOR ────────────────────────────────────────────────────────────
+const dot=document.getElementById('cursor-dot'),ring=document.getElementById('cursor-ring')
+let mx=0,my=0,rx=0,ry=0
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY
+  dot.style.left=mx+'px';dot.style.top=my+'px'
+})
+function animateRing(){
+  rx+=(mx-rx)*.12;ry+=(my-ry)*.12
+  ring.style.left=rx+'px';ring.style.top=ry+'px'
+  requestAnimationFrame(animateRing)
+}animateRing()
+document.querySelectorAll('a,button,.proj-card,.timeline-item,.contact-card,.chip').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.transform='translate(-50%,-50%) scale(1.6)'})
+  el.addEventListener('mouseleave',()=>{ring.style.transform='translate(-50%,-50%) scale(1)'})
+})
+
+// ─── PARTICLE CANVAS ──────────────────────────────────────────────────────────
+const canvas=document.getElementById('particle-canvas')
+const ctx=canvas.getContext('2d')
+let W,H,particles=[]
+const COLORS=['#6c5ce7','#ff2d78','#00d4ff','#ffb700']
+function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+resize();window.addEventListener('resize',()=>{resize();initParticles()})
+function Particle(){
+  this.x=Math.random()*W;this.y=Math.random()*H
+  this.vx=(Math.random()-.5)*.6;this.vy=(Math.random()-.5)*.6
+  this.r=Math.random()*2+1;this.color=COLORS[Math.floor(Math.random()*COLORS.length)]
+  this.alpha=Math.random()*.6+.2
+}
+function initParticles(){particles=[];for(let i=0;i<80;i++)particles.push(new Particle())}
+initParticles()
+function drawParticles(){
+  ctx.clearRect(0,0,W,H)
+  particles.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy
+    if(p.x<0)p.x=W;if(p.x>W)p.x=0
+    if(p.y<0)p.y=H;if(p.y>H)p.y=0
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2)
+    ctx.fillStyle=p.color;ctx.globalAlpha=p.alpha;ctx.fill()
+  })
+  ctx.globalAlpha=1
+  for(let i=0;i<particles.length;i++){
+    for(let j=i+1;j<particles.length;j++){
+      const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y
+      const dist=Math.sqrt(dx*dx+dy*dy)
+      if(dist<120){
+        ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y)
+        const grad=ctx.createLinearGradient(particles[i].x,particles[i].y,particles[j].x,particles[j].y)
+        grad.addColorStop(0,particles[i].color);grad.addColorStop(1,particles[j].color)
+        ctx.strokeStyle=grad;ctx.globalAlpha=(1-dist/120)*.18;ctx.lineWidth=.8;ctx.stroke()
+        ctx.globalAlpha=1
+      }
+    }
+  }
+  requestAnimationFrame(drawParticles)
+}drawParticles()
+
+// ─── SCROLL REVEAL ────────────────────────────────────────────────────────────
+const reveals=document.querySelectorAll('.reveal,.reveal-left,.reveal-right')
+const revealObs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('active');revealObs.unobserve(e.target)}})
+},{threshold:.12})
+reveals.forEach(el=>{revealObs.observe(el)})
+
+// ─── SKILL BARS ───────────────────────────────────────────────────────────────
+const skillObs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.skill-bar-fill').forEach(bar=>{
+        const w=bar.getAttribute('data-w')
+        bar.style.width=w+'%'
+        setTimeout(()=>bar.classList.add('swept'),1500)
+      })
+      skillObs.unobserve(e.target)
+    }
+  })
+},{threshold:.3})
+document.querySelectorAll('.skills-grid').forEach(el=>skillObs.observe(el))
+
+// ─── SMOOTH NAV ───────────────────────────────────────────────────────────────
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault()
+    const target=document.querySelector(a.getAttribute('href'))
+    if(target)target.scrollIntoView({behavior:'smooth',block:'start'})
+  })
+})
+
+// ─── MOBILE MENU ──────────────────────────────────────────────────────────────
+document.getElementById('menu-toggle').addEventListener('click',function(){
+  const links=document.querySelector('.nav-links')
+  if(links.style.display==='flex'){links.style.display='';this.style.gap='5px'}
+  else{
+    links.style.cssText='display:flex;flex-direction:column;position:absolute;top:70px;left:0;right:0;background:rgba(8,8,16,.95);padding:24px;gap:20px;border-bottom:1px solid rgba(108,92,231,.2)'
+  }
+})
+</script>
+</body>
+</html>
